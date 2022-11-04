@@ -4,9 +4,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RDP_Helper"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="RDP-Helper" Height="450" Width="700">
     <Grid>
+        <TabControl>
+            <TabItem Header="Encrypt and Decode Passwd">
+                <GroupBox Header="Encrypt">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="445*"/>
+                            <ColumnDefinition Width="231*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23*"/>
+                            <RowDefinition Height="78*"/>
+                            <RowDefinition Height="4*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="AccountKey" Margin="21,22,0,0" Height="32" Width="24" />
+                        <PasswordBox
+                            x:Name="Pb_InPasswd"
+                            Height="40px"
+                            materialDesign:HintAssist.Hint="Input Password or Ciphertext ..."
+                            materialDesign:HintAssist.Foreground="Green"
+                            materialDesign:TextFieldAssist.UnderlineBrush="Green"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="50,14,15,15" />
+                        <Button x:Name="Bt_Encrypt" Content="Encrypt"  HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center" Cursor="Hand" Grid.Column="1"/>
+                        <Button x:Name="Bt_Decode" Content="Decode" HorizontalAlignment="Left" Margin="121,0,0,0" VerticalAlignment="Center" Cursor="Hand" Grid.Column="1"/>
+                        <TextBox x:Name="Tb_OutPasswd" HorizontalAlignment="Left"  Margin="50,0,0,0" TextWrapping="Wrap" materialDesign:HintAssist.Hint="Output Content ..." Text="" VerticalAlignment="Center" Width="380" Height="210" Grid.Row="1"/>
+                        <materialDesign:PackIcon Kind="Export" Margin="25,20,0,0" Height="23" Width="20" Grid.Row="1" />
+                        <Button Content="Copy" HorizontalAlignment="Left" Margin="15,198,0,0" VerticalAlignment="Top" Cursor="Hand" Width="79" Grid.Row="1" Grid.Column="1"/>
+                    </Grid>
 
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="RDP File">
+                <Grid Background="#FFE5E5E5">
+                    <TextBlock HorizontalAlignment="Center" Margin="0,175,0,0" TextWrapping="Wrap" Text="still in development ..." VerticalAlignment="Top" Width="142" Height="18"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
