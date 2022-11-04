@@ -15,14 +15,29 @@ using System.Windows.Shapes;
 
 namespace RDP_Helper
 {
-    /// <summary>
+/// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-    }
+/// </summary>
+public partial class MainWindow : Window
+{
+public MainWindow()
+{
+InitializeComponent();
+}
+
+private void Bt_Encrypt_Click(object sender, RoutedEventArgs e)
+{
+
+}
+
+private void Bt_Decode_Click(object sender, RoutedEventArgs e)
+{
+
+}
+
+private void Bt_Copy_Click(object sender, RoutedEventArgs e)
+{
+
+}
+}
 }

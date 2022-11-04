@@ -12,11 +12,15 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        MaxHeight="450"
+        MaxWidth="700"
+        MinHeight="450"
+        MinWidth="700"
         Title="RDP-Helper" Height="450" Width="700">
     <Grid>
         <TabControl>
             <TabItem Header="Encrypt and Decode Passwd">
-                <GroupBox Header="Encrypt">
+                <GroupBox Header="Encrypt and Decode">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="445*"/>
@@ -30,16 +34,21 @@
                         <materialDesign:PackIcon Kind="AccountKey" Margin="21,22,0,0" Height="32" Width="24" />
                         <PasswordBox
                             x:Name="Pb_InPasswd"
-                            Height="40px"
                             materialDesign:HintAssist.Hint="Input Password or Ciphertext ..."
                             materialDesign:HintAssist.Foreground="Green"
                             materialDesign:TextFieldAssist.UnderlineBrush="Green"
-                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="50,14,15,15" />
-                        <Button x:Name="Bt_Encrypt" Content="Encrypt"  HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center" Cursor="Hand" Grid.Column="1"/>
-                        <Button x:Name="Bt_Decode" Content="Decode" HorizontalAlignment="Left" Margin="121,0,0,0" VerticalAlignment="Center" Cursor="Hand" Grid.Column="1"/>
-                        <TextBox x:Name="Tb_OutPasswd" HorizontalAlignment="Left"  Margin="50,0,0,0" TextWrapping="Wrap" materialDesign:HintAssist.Hint="Output Content ..." Text="" VerticalAlignment="Center" Width="380" Height="210" Grid.Row="1"/>
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            Style="{StaticResource MaterialDesignFilledRevealPasswordBox}" Margin="50,10,15,10"  />
+                        <Button x:Name="Bt_Encrypt" Content="Encrypt"  HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center" Cursor="Hand" Grid.Column="1" Click="Bt_Encrypt_Click"/>
+                        <Button x:Name="Bt_Decode" Content="Decode" HorizontalAlignment="Left" Margin="121,0,0,0" VerticalAlignment="Center" Cursor="Hand" Grid.Column="1" Click="Bt_Decode_Click"/>
+                        <TextBox
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            TextWrapping="Wrap"
+                            materialDesign:TextFieldAssist.CharacterCounterVisibility="Visible"
+                            VerticalScrollBarVisibility="Auto"
+                            materialDesign:HintAssist.Hint="Output Content ..." Height="210"  Grid.Row="1" Margin="50,16,15,5" />
                         <materialDesign:PackIcon Kind="Export" Margin="25,20,0,0" Height="23" Width="20" Grid.Row="1" />
-                        <Button Content="Copy" HorizontalAlignment="Left" Margin="15,198,0,0" VerticalAlignment="Top" Cursor="Hand" Width="79" Grid.Row="1" Grid.Column="1"/>
+                        <Button x:Name="Bt_Copy" Content="Copy" HorizontalAlignment="Left" Margin="15,187,0,0" VerticalAlignment="Top" Cursor="Hand" Width="79" Grid.Row="1" Grid.Column="1" Click="Bt_Copy_Click"/>
                     </Grid>
 
                 </GroupBox>
