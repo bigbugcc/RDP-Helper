@@ -16,7 +16,7 @@
         MaxWidth="700"
         MinHeight="450"
         MinWidth="700"
-        Title="RDP-Helper" Height="450" Width="700">
+        Title="RDP-Helper | Powered by bigbugcc" Height="450" Width="700">
     <Grid>
         <TabControl>
             <TabItem Header="Encrypt and Decode Passwd">
@@ -62,5 +62,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <materialDesign:Snackbar Name="iSnackbar" MessageQueue="{materialDesign:MessageQueue}"/>
     </Grid>
 </Window>

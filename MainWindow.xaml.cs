@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,18 +24,19 @@ namespace RDP_Helper
     public partial class MainWindow : Window
     {
         static byte[] s_aditionalEntropy = null;
+        public SnackbarMessageQueue messageQueue;
         public MainWindow()
         {
             InitializeComponent();
+            messageQueue = iSnackbar.MessageQueue;
         }
 
         private void Bt_Encrypt_Click(object sender, RoutedEventArgs e)
         {
             string Pass = Pb_InPasswd.Password.ToString();
-            if (string.IsNullOrEmpty(Pass)) MessageBox.Show("Please input content!");
+            if (string.IsNullOrEmpty(Pass)) { MsgBar("Please input content !", 0.75); return; } 
             byte[] secret = Encoding.Unicode.GetBytes(Pass);
             byte[] encryptedSecret = Protect(secret);
-            Console.WriteLine("The encrypted byte array is:");
             string res = string.Empty;
             foreach (byte b in encryptedSecret)
             {
@@ -42,23 +44,31 @@ namespace RDP_Helper
             }
             Tb_OutPasswd.Clear();
             Tb_OutPasswd.Text = res;
+            MsgBar("Completed !", 1);
         }
 
         private void Bt_Decode_Click(object sender, RoutedEventArgs e)
         {
             string Pass = Pb_InPasswd.Password.ToString();
-            if (string.IsNullOrEmpty(Pass)) MessageBox.Show("Please input content!");
+            if (string.IsNullOrEmpty(Pass)) { MsgBar("Please input content !", 0.75); return; }
             // Decrypt the data and store in a byte array.
             byte[] originalData = Unprotect(GetBytes(Pass));
-            if (originalData.Length < 10) return;
+            if (string.IsNullOrEmpty(originalData.ToString())) return;
             string str = Encoding.Default.GetString(originalData).Replace("\0", string.Empty);
             Tb_OutPasswd.Clear();
             Tb_OutPasswd.Text = str;
+            MsgBar("Completed !", 1);
         }
 
         private void Bt_Copy_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(Tb_OutPasswd.Text)) 
+            {
+                MsgBar("Nothing needs to be copied !", 1);
+                return;
+            }
             Clipboard.SetText(Tb_OutPasswd.Text);
+            MsgBar("Copied !", 0.75);
         }
 
         private void Pb_InPasswd_PasswordChanged(object sender, RoutedEventArgs e)
@@ -81,9 +91,12 @@ namespace RDP_Helper
             catch (CryptographicException e)
             {
                 Console.WriteLine("Data was not encrypted. An error occurred.");
+                
                 Console.WriteLine(e.ToString());
+
                 return null;
             }
+            
         }
 
         //解密
@@ -97,7 +110,9 @@ namespace RDP_Helper
             catch (CryptographicException e)
             {
                 Console.WriteLine("Data was not decrypted. An error occurred.");
+
                 Console.WriteLine(e.ToString());
+
                 return null;
             }
         }
@@ -117,9 +132,21 @@ namespace RDP_Helper
                 bytes = data;
             } catch(Exception e) {
                 Console.WriteLine(e);
-                MessageBox.Show("Please Input Correct Ciphertext!");
             }
             return bytes;
+        }
+
+        //消息提示Bar
+        public void MsgBar(string Mes, double time)
+        {
+            try
+            {
+                messageQueue.Enqueue(Mes, null, null, null, false, true, TimeSpan.FromSeconds(time));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SnackBarMessage:" + ex.Message);
+            }
         }
 
         private static void rdpProfile(string filename, string address, string username, string password, string colordepth)
