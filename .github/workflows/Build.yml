@@ -1,0 +1,65 @@
+name:  RDP-Helper
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+
+    env:
+      Solution_Path: RDP-Helper.sln
+      PublishFile: 'bin\publish\RDP-Helper.exe'
+      PublishProfile: 'Properties\PublishProfiles\single.pubxml'
+      Wpf_Project_Path: RDP-Helper.csproj
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+
+    - name: Use Nerdbank.GitVersioning to set version variables
+      uses: dotnet/nbgv@master
+      id: nbgv
+
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'
+
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+        
+        
+    - name: Build
+      run: msbuild $env:Solution_Path /t:Restore /t:publish /p:Configuration=Release /p:DeployOnBuild=true
+        /p:PublishProfile=$env:PublishProfile
+        
+    - name: FileScan
+      shell: pwsh
+      run: ls bin\
+      
+    - name: Tags
+      shell: pwsh
+      run: |
+        $tag=$(Get-Date -Format "yyyyMMdd-HHmm")
+        echo "tag=$tag" | Out-File -Append -Encoding UTF8 -FilePath $Env:GITHUB_ENV
+ 
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ env.tag }}
+        name: RDP-Helper
+        token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: false
+        body: | 
+          Note:
+          - fix: Several small issues
+          - date:  ${{ env.tag }}
+        files: | 
+          ${{ env.PublishFile }}
