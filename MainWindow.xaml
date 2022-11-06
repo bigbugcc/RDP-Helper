@@ -63,5 +63,6 @@
             </TabItem>
         </TabControl>
         <materialDesign:Snackbar Name="iSnackbar" MessageQueue="{materialDesign:MessageQueue}"/>
+        <StackPanel/>
     </Grid>
 </Window>
